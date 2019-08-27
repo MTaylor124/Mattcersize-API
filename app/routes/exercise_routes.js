@@ -47,7 +47,7 @@ router.get('/exercises', (req, res, next) => {
 
 // SHOW
 // GET /exercises/5a7db6c74d55bc51bdf39793
-router.get('/exercises/:id', requireToken, (req, res, next) => {
+router.get('/exercises/:id', (req, res, next) => {
   // req.params.id will be set based on the `:id` in the route
   Exercise.findById(req.params.id)
     .populate('workout')
@@ -109,7 +109,7 @@ router.patch('/exercises/:id', removeBlanks, (req, res, next) => {
 
 // DESTROY
 // DELETE /exercises/5a7db6c74d55bc51bdf39793
-router.delete('/exercises/:id', requireToken, (req, res, next) => {
+router.delete('/exercises/:id', (req, res, next) => {
   Exercise.findById(req.params.id)
     .then(handle404)
     .then(exercise => {
