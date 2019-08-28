@@ -9,11 +9,7 @@ const workoutSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
-  },
-  exercises: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Exercise'
-  }]
+  }
 }, {
   timestamps: true
 })

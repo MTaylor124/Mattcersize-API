@@ -5,7 +5,7 @@ const passport = require('passport')
 
 // pull in Mongoose model for exercises
 const Exercise = require('../models/exercise')
-const Workout = require('../models/workout')
+// const Workout = require('../models/workout')
 
 // this is a collection of methods that help us detect situations when we need
 // to throw a custom error
@@ -58,25 +58,40 @@ router.get('/exercises/:id', (req, res, next) => {
     .catch(next)
 })
 
-// CREATE
-// POST /exercises
+// // CREATE
+// // POST /exercises
+// router.post('/exercises', requireToken, (req, res, next) => {
+//   // set owner of new exercise to be current user
+//   req.body.exercise.owner = req.user.id
+//   // let workoutId = req.body.exercise.workout
+//   // let exercise = req.body.exercise
+//   Exercise.create(req.body.exercise)
+//     // respond to succesful `create` with status 201 and JSON of new "exercise"
+//     .then(exercise => {
+//       Workout.findById(workoutId)
+//         .then(foundWorkout => {
+//           foundWorkout.exercises.push(exercise)
+//           let workout = foundWorkout
+//           return foundWorkout.update(workout)
+//         })
+//     })
+//     .then(() => {
+//       res.status(201).json({exercise})
+//     })
+//     // if an error occurs, pass it off to our error handler
+//     // the error handler needs the error message and the `res` object so that it
+//     // can send an error message back to the client
+//     .catch(next)
+// })
+
 router.post('/exercises', requireToken, (req, res, next) => {
   // set owner of new exercise to be current user
   req.body.exercise.owner = req.user.id
-  let workoutId = req.body.exercise.workout
-  let exercise = req.body.exercise
+
   Exercise.create(req.body.exercise)
     // respond to succesful `create` with status 201 and JSON of new "exercise"
     .then(exercise => {
-      Workout.findById(workoutId)
-        .then(foundWorkout => {
-          foundWorkout.exercises.push(exercise._id)
-          let workout = foundWorkout
-          return foundWorkout.update(workout)
-        })
-    })
-    .then(() => {
-      res.status(201).json({exercise})
+      res.status(201).json({ exercise: exercise.toObject() })
     })
     // if an error occurs, pass it off to our error handler
     // the error handler needs the error message and the `res` object so that it
@@ -109,7 +124,8 @@ router.patch('/exercises/:id', removeBlanks, (req, res, next) => {
 
 // DESTROY
 // DELETE /exercises/5a7db6c74d55bc51bdf39793
-router.delete('/exercises/:id', (req, res, next) => {
+router.delete('/exercises/:id', requireToken, (req, res, next) => {
+  console.log('this is req', req)
   Exercise.findById(req.params.id)
     .then(handle404)
     .then(exercise => {

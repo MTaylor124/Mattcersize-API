@@ -5,7 +5,7 @@ const passport = require('passport')
 
 // pull in Mongoose model for workouts
 const Workout = require('../models/workout')
-
+const Exercise = require('../models/exercise')
 // this is a collection of methods that help us detect situations when we need
 // to throw a custom error
 const customErrors = require('../../lib/custom_errors')
@@ -47,7 +47,7 @@ router.post('/workouts', requireToken, (req, res, next) => {
 // index
 router.get('/workouts', (req, res, next) => {
   Workout.find()
-    .populate('exercizes')
+    .populate('exercises')
     .then(workouts => {
       // `workouts` will be an array of Mongoose documents
       // we want to convert each one to a POJO, so we use `.map` to
@@ -62,13 +62,30 @@ router.get('/workouts', (req, res, next) => {
 
 // SHOW
 // GET /examples/5a7db6c74d55bc51bdf39793
+// router.get('/workouts/:id', (req, res, next) => {
+//   // req.params.id will be set based on the `:id` in the route
+//   Workout.findById(req.params.id)
+//     .then(handle404)
+//     // if `findById` is succesful, respond with 200 and "workout" JSON
+//     .then(workout => res.status(200).json({ workout: workout.toObject() }))
+//     // if an error occurs, pass it to the handler
+//     .catch(next)
+// })
+
+// SHOW action
 router.get('/workouts/:id', (req, res, next) => {
-  // req.params.id will be set based on the `:id` in the route
-  Workout.findById(req.params.id)
+  const id = req.params.id
+  let workout
+  Workout.findById(id)
     .then(handle404)
-    // if `findById` is succesful, respond with 200 and "workout" JSON
-    .then(workout => res.status(200).json({ workout: workout.toObject() }))
-    // if an error occurs, pass it to the handler
+    .then(foundWorkout => {
+      workout = foundWorkout.toObject()
+      return Exercise.find({ workout: id })
+    })
+    .then(exercises => {
+      workout.exercises = exercises
+      res.json({ workout })
+    })
     .catch(next)
 })
 
