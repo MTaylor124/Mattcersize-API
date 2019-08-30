@@ -1,201 +1,147 @@
-[![General Assembly Logo](https://camo.githubusercontent.com/1a91b05b8f4d44b5bbfb83abac2b0996d8e26c92/687474703a2f2f692e696d6775722e636f6d2f6b6538555354712e706e67)](https://generalassemb.ly/education/web-development-immersive)
+# Mattcersize
 
-# express-api-template
+A single page workout tracker application.
 
-A template for starting projects with `express` as an API. Includes
-authentication and common middlewares.
+Users can create workouts and add resistance training exercises to them and
+track their progress. It's difficult to keep track of past workouts and I plan
+to make it as simple and easy as possible.
 
-## Installation
+### Links
 
-1.  [Download](../../archive/master.zip) this template.
-1.  Move the .zip file to your `wdi/projects/` directory and Unzip it (creating a folder) -- **NOTE:** if the folder was already unzipped, use the `mv` command line to move it to the `wdi/projects/` directory.
-1.  Rename the directory from express-api-template -> your-app-name.
-1.  Empty [`README.md`](README.md) and fill with your own content.
-1.  Move into the new project and `git init`.
-1.  Replace all instances of `'express-api-template'` with your app name.
-1.  Install dependencies with `npm install`.
-1.  Ensure that you have `nodemon` installed by running `npm install -g nodemon`.
-1.  Ensure the API is functioning properly by running `npm run server`.
-1.  Once everything is working, make an initial commit.
-1.  Follow the steps in [express-api-deployment-guide](https://git.generalassemb.ly/ga-wdi-boston/express-api-deployment-guide)
+- [Application](https://mtaylor124.github.io/Mattcersize-Client/#/)
+- [Back end](https://mattcersize-api.herokuapp.com)
+- [Front end repo](https://github.com/MTaylor124/Mattcersize-Client)
+- [Back end repo](https://github.com/MTaylor124/Mattcersize-API)
 
-## Structure
+### Setup steps
 
-Dependencies are stored in [`package.json`](package.json).
+1. Fork and clone this repo
+2. run npm install to install dependencies
+3. run npm start for front-end and run npm server for back end
 
-The most important file for understanding the structure of the template is
-`server.js`. This is where the actual Express `app` object is created, where
-the middlewares and routes are registered, and more. To register a routefile,
-follow the pattern established here with `exampleRoutes` and `userRoutes`. If
-you want to add any middlewares to your app, do that here.
 
-The `app` directory contains models and route files. Models are simply Mongoose
-models. To create your own, follow the patterns established in
-`app/models/example.js`. Route files are somewhat similar to controllers in
-Rails, but they cover more functionality, including serialization and deciding
-which HTTP verbs to accept and what to do with them.
+### Development
 
-The `config` directory holds just `db.js`, which is where you specify the name
-and URL of your database.
+1. Created user stories
+2. Created wireframes
+3. Creared ERD
+4. Began development:
+  1. Created repo for front and back end
+  2. Created heroku database
+  3. Developed Express Routes for both resources(workout and exercise)
+  4. Built React front end
+  5. Utilized axios requests to communicate with back end
+  6. CRUD
+  7. Styling and UI functionality
 
-The `lib` directory is for code that will be used in other places in the
-application. The token authentication code is stored in `lib/auth.js`. The
-other files in `lib` deal with error handling. `custom_errors.js` is where all
-the different custom classes of errors are created. If you need some other kind
-of error message, you can add it here. There are also some functions defined
-here that are used elsewhere to check for errors. `lib/error_handler.js` is a
-function that will be used in all your `.catch`es. It catches errors, and sets
-the response status code based on what type of error got thrown.
+### Problem Solving
+In the event of a bug or issue:
+  1. Console logging out state and props as needed to understand what information
+     was being sent between states
+  2. Pair programming
 
-You probably will only need to interact with files in `app/models`,
-`app/routes`, and `server.js`. You'll need to edit `db/config.js` just once,
-to change the name of your app.
+## Git / Version Control
+1. Committed back end after successful CRUD test with curl scripts
+2. Committed front end after addition of every successful CRUD test
+3. Committed each additional functional component
 
-## Tasks
+### Technologies Used
+- JavaScript
+- React
+- React-bootstrap
+- Express
+- axios
+- MongoDB
+- Mongoose
 
-Instead of `grunt`, this template uses `npm` as a task runner. This is more
-conventional for modern Express apps, and it's handy because we'll definitely
-use `npm` anyway. These are the commands available:
+### User Stories
 
-| Command                | Effect                                                                                                      |
-|------------------------|-------------------------------------------------------------------------------------------------------------|
-| `npm run server`       | Starts a development server with `nodemon` that automatically refreshes when you change something.                                                                                         |
-| `npm test`             | Runs automated tests.                                                                                       |
-| `npm run debug-server` | Starts the server in debug mode, which will print lots of extra info about what's happening inside the app. |
+As an unregistered user, I would like to sign up with email and password.
+As a registered user, I would like to sign in with email and password.
+As a signed in user, I would like to change password.
+As a signed in user, I would like to sign out.
 
-## API
+As a signed in user, I would like to create my own workout
+As a signed in user, I would like to view my own workouts
+As a signed in user, I would like to edit the name of my workouts
+As a signed in user, I would like to delete my workout
 
-Use this as the basis for your own API documentation. Add a new third-level
-heading for your custom entities, and follow the pattern provided for the
-built-in user authentication documentation.
+As a signed in user, I would like to add exercises to my workout
+As a signed in user, I would like to view all exercises with a workout
+As a signed in user, I would like to edit exercises in a workout
+As a signed in user, I would like to delete exercises within a workout
 
-Scripts are included in [`curl-scripts`](curl-scripts) to test built-in actions.
-Add your own scripts to test your custom API.
+### Database
 
-### Authentication
+This application with have 2 one-to-many relationships between 3 collections: users, workouts and exercises
 
-| Verb   | URI Pattern            | Controller#Action |
-|--------|------------------------|-------------------|
-| POST   | `/sign-up`             | `users#signup`    |
-| POST   | `/sign-in`             | `users#signin`    |
-| PATCH  | `/change-password/` | `users#changepw`  |
-| DELETE | `/sign-out/`        | `users#signout`   |
+Collection: Users
+- id: string
+- email: string
 
-#### POST /sign-up
+Collection: Workouts
+- _id: string
+- updatedAt: date
+- createdAt: date
+- Name: string
+- owner: string
 
-Request:
+Collection: Exercises
+- _id: string
+- updatedAt: date
+- createdAt: date
+- name: string
+- sets: number
+- reps: number
+- weight: string
 
-```sh
-curl --include --request POST http://localhost:4741/sign-up \
-  --header "Content-Type: application/json" \
-  --data '{
-    "credentials": {
-      "email": "an@example.email",
-      "password": "an example password",
-      "password_confirmation": "an example password"
-    }
-  }'
-```
+### Future additions
 
-```sh
-curl-scripts/sign-up.sh
-```
+As this is a project I will be personally using weekly, there are several
+improvements I plan to make not including the additions I have not
+come up with yet. These future additions include:
 
-Response:
+- AWS support to allow users to take pictures of themselves and save them within
+workouts to view progress over time
+- added cardio section within exercise or CRUD out separate resource for it
+- Track exercises by same name over time to allow for statistics on workouts
+- add a weight component to workout for users that weigh themselves before each
+workout and would like to keep track of that number over time
 
-```md
-HTTP/1.1 201 Created
-Content-Type: application/json; charset=utf-8
+##### Users
 
-{
-  "user": {
-    "id": 1,
-    "email": "an@example.email"
-  }
-}
-```
+| CRUD        | HTTP           | Action | Route |
+| ------------- |:-------------:| :-----:|:-----:|
+| Create      | POST | create | /sign-up |
+| Create     | POST      |  create | /sign-in |
+| Update | PATCH     |    update | /change-password |
+| Delete | DELETE     |    destroy | /sign-out |
 
-#### POST /sign-in
+##### Workouts
 
-Request:
+| CRUD        | HTTP           | Action | Route |
+| ------------- |:-------------:| :-----:|:-----:|
+| Create      | POST | create | /workouts |
+| Read     | GET      |  index | /workouts |
+| Update | PATCH     |    update | /workouts/:id |
+| Delete | DELETE     |    destroy | /workouts/:id |
 
-```sh
-curl --include --request POST http://localhost:4741/sign-in \
-  --header "Content-Type: application/json" \
-  --data '{
-    "credentials": {
-      "email": "an@example.email",
-      "password": "an example password"
-    }
-  }'
-```
+##### Exercises
 
-```sh
-curl-scripts/sign-in.sh
-```
+| CRUD        | HTTP           | Action | Route |
+| ------------- |:-------------:| :-----:|:-----:|
+| Create      | POST | create | /exercises |
+| Read     | GET      |  index | /exercises |
+| Update | PATCH     |    update | /exercises/:id |
+| Delete | DELETE     |    destroy | /exercises/:id |
 
-Response:
+### ERD
 
-```md
-HTTP/1.1 200 OK
-Content-Type: application/json; charset=utf-8
+![ERD](https://imgur.com/a/vhYn2GE)
 
-{
-  "user": {
-    "id": 1,
-    "email": "an@example.email",
-    "token": "33ad6372f795694b333ec5f329ebeaaa"
-  }
-}
-```
+### Wireframes
 
-#### PATCH /change-password/
-
-Request:
-
-```sh
-curl --include --request PATCH http://localhost:4741/change-password/ \
-  --header "Authorization: Token token=$TOKEN" \
-  --header "Content-Type: application/json" \
-  --data '{
-    "passwords": {
-      "old": "an example password",
-      "new": "super sekrit"
-    }
-  }'
-```
-
-```sh
-TOKEN=33ad6372f795694b333ec5f329ebeaaa curl-scripts/change-password.sh
-```
-
-Response:
-
-```md
-HTTP/1.1 204 No Content
-```
-
-#### DELETE /sign-out/
-
-Request:
-
-```sh
-curl --include --request DELETE http://localhost:4741/sign-out/ \
-  --header "Authorization: Token token=$TOKEN"
-```
-
-```sh
-TOKEN=33ad6372f795694b333ec5f329ebeaaa curl-scripts/sign-out.sh
-```
-
-Response:
-
-```md
-HTTP/1.1 204 No Content
-```
-
-## [License](LICENSE)
-
-1.  All content is licensed under a CC­BY­NC­SA 4.0 license.
-1.  All software code is licensed under GNU GPLv3. For commercial use or
-    alternative licensing, please contact legal@ga.co.
+![Front page](https://imgur.com/a/YAOsCsm)
+![Empty workout](https://imgur.com/a/GUZaBvI)
+![Workout](https://imgur.com/a/K0HfyK2)
+![Add Exercise](https://imgur.com/a/JsYaB88)
